@@ -1,0 +1,659 @@
+:root {
+  --bottom-nav-height: 56px;
+  /* 하단 네비의 실제 높이 = 기본 높이 + 기기의 안전 영역(홈 인디케이터 등). viewport-fit=cover 일 때 안전 영역 값이 들어온다. */
+  --bottom-nav-offset: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+}
+
+body {
+  margin: 0;
+  background: #f5f7f2;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 1200px;
+  /* 부트스트랩 .py-3(!important)가 아래 여백을 덮어써서 하단 네비 뒤로 콘텐츠가 가려지던 문제를 막는다 */
+  padding-bottom: calc(var(--bottom-nav-offset) + 1rem) !important;
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--bottom-nav-offset);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  background: #fff;
+  border-top: 1px solid #dee2e6;
+  z-index: 1030;
+}
+
+.bottom-nav__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.bottom-nav__item.active {
+  color: #198754;
+  font-weight: 700;
+}
+
+.app-header {
+  background: #fff;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* 지도 프레임. 14단계 Pixel RPG UI 에서 이 영역의 테두리/모서리만 교체하면 된다. */
+.map-frame {
+  position: relative;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #e9ecef;
+}
+
+.map-frame__loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ───────── 퀘스트 화면 compact 레이아웃 (모바일 우선) ───────── */
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+/* 접힌 선택 퀘스트: 카드 전체가 하나의 button */
+.quest-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0 0 0.4rem;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-left: 3px solid #6c757d;
+  border-radius: 0.375rem;
+  color: inherit;
+  cursor: pointer;
+}
+.quest-row:hover {
+  background: #f8f9fa;
+}
+.quest-row:focus-visible,
+.quest-done-row:focus-visible,
+.quest-collapse:focus-visible {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+}
+.quest-row__main {
+  flex: 1;
+  min-width: 0;
+}
+.quest-row__title {
+  display: block;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.quest-row__meta {
+  display: block;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+.quest-row__hint {
+  color: #198754;
+  font-weight: 600;
+}
+.quest-row__chevron {
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #6c757d;
+}
+
+/* 완료한 핵심 퀘스트 한 줄 / 완료한 선택 퀘스트 그룹 헤더 */
+.quest-done-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #146c43;
+  background: #e8f5ee;
+  border: 1px solid #b7dfc8;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+.quest-done-row__action {
+  flex: none;
+  color: #6c757d;
+  font-size: 0.8rem;
+  text-decoration: underline;
+}
+.quest-collapse {
+  padding: 0;
+  margin-bottom: 0.25rem;
+  background: none;
+  border: 0;
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+/* 다음 챕터 예고: 한두 줄짜리 작은 행 */
+.next-preview {
+  margin: 0.25rem 0 0.5rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.85rem;
+  background: #f1f3f5;
+  border-radius: 0.375rem;
+}
+.next-preview__note {
+  font-size: 0.72rem;
+  color: #6c757d;
+}
+
+/* 챕터 이동 버튼: 모바일에서는 bottom nav 바로 위에 고정, 데스크톱에서는 카드 안에 일반 배치 */
+.chapter-action-bar {
+  margin-top: 0.5rem;
+}
+.quest-page--has-action {
+  /* 고정된 버튼 뒤에 마지막 콘텐츠가 가려지지 않도록 여백을 더한다 */
+  padding-bottom: 4.5rem;
+}
+@media (min-width: 768px) {
+  .quest-page--has-action {
+    padding-bottom: 0;
+  }
+}
+@media (max-width: 767.98px) {
+  .chapter-action-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: var(--bottom-nav-offset); /* bottom nav(+안전 영역) 바로 위 */
+    z-index: 1029; /* bottom nav(1030) 바로 아래: 모달(1055)보다는 아래라서 확인 모달이 가려지지 않는다 */
+    margin: 0;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.97);
+    border-top: 1px solid #dee2e6;
+  }
+}
+
+/* ───────── 퀘스트 완료 결과 팝업 (14단계 Pixel RPG 에서 이 블록만 교체) ───────── */
+.reward-popup-layer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 16%; /* 화면 중앙보다 조금 위: 아래의 sticky 챕터 버튼/하단 네비와 겹치지 않는다 */
+  z-index: 1060; /* 모달(1055)보다 위. 화면을 가리는 dim 은 없고 카드만 뜬다 */
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+  pointer-events: none; /* 카드 밖은 아래 화면을 그대로 조작할 수 있다 */
+}
+.reward-popup {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  width: min(100%, 340px);
+  max-height: calc(100dvh - 24%); /* 작은 화면에서는 카드 안에서 스크롤 */
+  overflow-y: auto;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  color: #212529;
+  background: #fffdf2;
+  border: 2px solid #f0b429;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.25);
+  animation: reward-popup-in 0.18s ease-out;
+}
+.reward-popup:focus-visible {
+  outline: 3px solid #0d6efd;
+  outline-offset: 2px;
+}
+.reward-popup__big {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #198754;
+}
+.reward-popup__unit {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.reward-popup__dist {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.reward-popup__extra {
+  font-size: 0.9rem;
+}
+.reward-popup__extra strong {
+  color: #198754;
+}
+.reward-popup__title {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #b7791f;
+}
+.reward-popup__quest {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+.reward-popup__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 100%;
+}
+.reward-popup__row {
+  display: flex;
+  flex-direction: column;
+}
+.reward-popup__row strong {
+  color: #198754;
+}
+.reward-popup__sub {
+  font-size: 0.78rem;
+  color: #6c757d;
+}
+.reward-popup__total {
+  width: 100%;
+  padding-top: 0.3rem;
+  border-top: 1px dashed #ced4da;
+  font-weight: 700;
+}
+.reward-popup__levelup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0.3rem;
+  background: #fff3cd;
+  border-radius: 0.5rem;
+}
+.reward-popup__levelup strong {
+  color: #b02a37;
+  letter-spacing: 0.04em;
+}
+.reward-popup__hint {
+  font-size: 0.72rem;
+  color: #868e96;
+}
+@keyframes reward-popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reward-popup {
+    animation: none;
+  }
+}
+
+/* ───────── 돌발 퀘스트 이벤트 오버레이 (14단계 Pixel RPG 에서 이 블록만 교체) ───────── */
+.event-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* 모바일: 하단 네비 + sticky 챕터 버튼 영역은 비워 둬서 오버레이가 가리거나 막지 않는다 */
+  bottom: calc(var(--bottom-nav-offset) + 4.5rem);
+  z-index: 1056; /* 챕터 버튼(1029)/네비(1030)보다 위, 보상 팝업(1060)보다 아래 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.28); /* 약한 dim */
+}
+@media (min-width: 768px) {
+  .event-overlay {
+    bottom: var(--bottom-nav-offset);
+  }
+}
+.event-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: min(100%, 360px);
+  max-height: 100%;
+  overflow-y: auto; /* 작은 화면에서도 버튼까지 스크롤로 닿는다 */
+  padding: 1rem;
+  text-align: center;
+  background: #fffaf0;
+  border: 2px solid #fd7e14;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3);
+}
+.event-card__eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #c2570c;
+}
+.event-card__title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+.event-card__quest {
+  font-weight: 700;
+}
+.event-card__desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #495057;
+}
+.event-card__row {
+  font-size: 0.85rem;
+}
+.event-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+.event-card__note {
+  font-size: 0.72rem;
+  color: #868e96;
+}
+
+/* ───────── 카테고리 EXP chip (예상 성장 / 획득한 성장 / 특별 보상). 14단계 Pixel RPG 에서 이 블록만 교체 ───────── */
+.cat-chips {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  vertical-align: middle;
+}
+.cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.05rem 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  color: #212529;
+  background: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 999px;
+}
+.cat-chip strong {
+  font-weight: 800;
+}
+.cat-chip--explore {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+.cat-chip--culture {
+  background: #ede9fe;
+  border-color: #c4b5fd;
+}
+.cat-chip--food {
+  background: #ffedd5;
+  border-color: #fdba74;
+}
+.cat-chip--relax {
+  background: #dcfce7;
+  border-color: #86efac;
+}
+.cat-chip--social {
+  background: #fce7f3;
+  border-color: #f9a8d4;
+}
+.cat-chip--discovery {
+  background: #fef3c7;
+  border-color: #fcd34d;
+}
+.quest-row__growth {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.2rem;
+}
+.quest-row__growth-label,
+.quest-growth__label,
+.reward-popup__section-label {
+  font-size: 0.72rem;
+  color: #6c757d;
+}
+.quest-growth {
+  margin: 0.25rem 0;
+}
+.reward-popup__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  width: 100%;
+}
+
+/* ───────── 12단계: Final Quest / 여행 요약 (14단계 Pixel RPG 에서 이 블록만 교체) ───────── */
+.final-quest {
+  border: 2px solid #212529;
+}
+.final-quest--complete {
+  border-color: #198754;
+  background: #f0fdf4;
+}
+.final-quest--cancelled {
+  border-color: #dc3545;
+}
+.final-quest__facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 0.75rem;
+}
+.final-quest__facts dt {
+  color: #6c757d;
+  font-weight: 400;
+}
+.final-quest__facts dd {
+  margin: 0;
+  text-align: right;
+}
+.final-quest__exp {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #198754;
+}
+.trip-summary__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+}
+.memory-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 0.35rem;
+}
+.memory-thumbs img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0.4rem;
+}
+
+/* ───────── 퀘스트 탭 위치 요약 / 지도 preview (접힘이 기본: 펼쳤을 때만 지도 높이를 차지한다) ───────── */
+.quest-location {
+  margin-bottom: 0.5rem;
+}
+.quest-location__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.quest-location__text {
+  min-width: 0;
+}
+.quest-location__name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.quest-location__actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.25rem;
+}
+.quest-location__actions .btn {
+  padding: 0.15rem 0.45rem;
+  font-size: 0.75rem;
+}
+.quest-map-preview {
+  margin-top: 0.4rem;
+}
+
+/* 성향 요약 (결과 Modal / 모험가 탭) */
+.style-summary__title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+.style-summary__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.style-summary__label {
+  width: 2.6rem;
+  font-size: 0.85rem;
+}
+.style-summary__score {
+  width: 2rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* ───────── Demo Mode 표시줄 / Agent Log (14단계 Pixel RPG 에서 이 블록만 교체) ───────── */
+.demo-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1040;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  background: #fff3cd;
+  border-bottom: 1px solid #ffe69c;
+}
+.demo-bar__label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.demo-bar__spacer {
+  flex: 1;
+}
+.demo-bar .btn {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.78rem;
+}
+.app-body {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.app-body > .app-main {
+  min-width: 0;
+}
+.agent-log-aside {
+  flex: 0 0 28%;
+  max-width: 380px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 1rem 0.75rem calc(var(--bottom-nav-offset) + 1rem);
+  background: #fff;
+  border-left: 1px solid #dee2e6;
+}
+.agent-log__title {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+.agent-log__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.agent-log__item {
+  padding: 0.45rem 0.5rem;
+  margin-bottom: 0.4rem;
+  border-left: 3px solid #adb5bd;
+  background: #f8f9fa;
+  border-radius: 0.25rem;
+}
+.agent-log__item--warning {
+  border-left-color: #ffc107;
+}
+.agent-log__item--success {
+  border-left-color: #198754;
+}
+.agent-log__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.agent-log__time {
+  font-size: 0.7rem;
+  color: #6c757d;
+}
+.agent-log__name {
+  font-weight: 600;
+  font-size: 0.82rem;
+  margin-top: 0.15rem;
+}
+.agent-log__message {
+  font-size: 0.78rem;
+  color: #495057;
+}
+.agent-log-offcanvas {
+  height: 60vh !important;
+}
+.demo-scenario .small {
+  opacity: 0.85;
+}
