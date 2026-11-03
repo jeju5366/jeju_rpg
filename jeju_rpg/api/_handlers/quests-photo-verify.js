@@ -1,6 +1,6 @@
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
-import { verifyQuestPhoto } from './_lib/quests/photoVerify.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
+import { verifyQuestPhoto } from '../_lib/quests/photoVerify.js'
 
 // 사진 인증은 AI 호출이 들어가서 Agent 와 같은 최대 실행 시간을 쓴다. (로컬 dev 에서는 무시)
 export const config = { maxDuration: 60 }

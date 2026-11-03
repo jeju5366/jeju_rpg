@@ -1,6 +1,6 @@
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
-import { startFreeTravel } from './_lib/freeTravel/service.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
+import { startFreeTravel } from '../_lib/freeTravel/service.js'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 

@@ -1,6 +1,6 @@
-import { respondSurprise } from './_lib/agent/surprise.js'
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
+import { respondSurprise } from '../_lib/agent/surprise.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 

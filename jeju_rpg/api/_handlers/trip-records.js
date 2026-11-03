@@ -1,7 +1,7 @@
-import { buildTripRecord, listPastTrips } from './_lib/finalQuest/record.js'
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
-import { getAdmin } from './_lib/supabaseAdmin.js'
+import { buildTripRecord, listPastTrips } from '../_lib/finalQuest/record.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
+import { getAdmin } from '../_lib/supabaseAdmin.js'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 

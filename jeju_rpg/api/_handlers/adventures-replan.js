@@ -1,7 +1,7 @@
-import { REPLAN_REASONS } from '../src/constants/enums.js'
-import { replanAdventure } from './_lib/agent/replan.js'
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
+import { REPLAN_REASONS } from '../../src/constants/enums.js'
+import { replanAdventure } from '../_lib/agent/replan.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
 
 // Agent 호출이 길어질 수 있어 Vercel 함수 최대 실행 시간을 늘린다. (로컬 dev 에서는 무시)
 export const config = { maxDuration: 60 }

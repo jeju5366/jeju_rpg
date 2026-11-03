@@ -28,7 +28,7 @@ function devApi() {
         const name = url.pathname.slice('/api/'.length)
         // 영문/숫자/-만 허용: _lib 같은 내부 폴더와 경로 탈출을 막는다.
         // 그 외 /api/* 는 vite 가 소스 파일을 그대로 내보내거나 SPA 로 빠지지 않도록 404 로 끝낸다.
-        const file = path.resolve(server.config.root, 'api', `${name}.js`)
+        const file = path.resolve(server.config.root, 'api', '_handlers', `${name}.js`)
         if (!/^[a-z0-9-]+$/i.test(name) || !fs.existsSync(file)) {
           res.statusCode = 404
           res.setHeader('Content-Type', 'application/json; charset=utf-8')
@@ -47,7 +47,7 @@ function devApi() {
 
         try {
           if (req.method === 'POST') req.body = await readJsonBody(req)
-          const mod = await server.ssrLoadModule(`/api/${name}.js`)
+          const mod = await server.ssrLoadModule(`/api/_handlers/${name}.js`)
           await mod.default(req, res)
         } catch (error) {
           server.ssrFixStacktrace?.(error)

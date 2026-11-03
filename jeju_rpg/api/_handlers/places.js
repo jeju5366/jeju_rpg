@@ -1,6 +1,6 @@
-import { createHandler } from './_lib/handler.js'
-import { numberParam } from './_lib/http.js'
-import { getNearbyPlaces } from './_lib/providers/tour.js'
+import { createHandler } from '../_lib/handler.js'
+import { numberParam } from '../_lib/http.js'
+import { getNearbyPlaces } from '../_lib/providers/tour.js'
 
 // GET /api/places?lat=&lng=&radius=&contentTypeId=&limit=
 //  radius: 미터(기본 5000, 최대 20000) / limit: 기본 20, 최대 100

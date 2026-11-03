@@ -1,7 +1,7 @@
-import { TRAVEL_RANGES } from '../src/constants/gameBalance.js'
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
-import { generateAdventures } from './_lib/agent/generateAdventures.js'
+import { TRAVEL_RANGES } from '../../src/constants/gameBalance.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
+import { generateAdventures } from '../_lib/agent/generateAdventures.js'
 
 // OpenAI 호출이 길어질 수 있어 Vercel 함수 최대 실행 시간을 늘린다. (로컬 dev 에서는 무시)
 export const config = { maxDuration: 60 }

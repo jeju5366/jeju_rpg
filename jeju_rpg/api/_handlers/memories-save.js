@@ -1,6 +1,6 @@
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
-import { saveMemoryPhoto } from './_lib/memory/service.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
+import { saveMemoryPhoto } from '../_lib/memory/service.js'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 

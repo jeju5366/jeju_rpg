@@ -1,6 +1,6 @@
-import { createHandler } from './_lib/handler.js'
-import { numberParam, stringParam } from './_lib/http.js'
-import { DRIVING_OPTIONS, getDrivingRoute } from './_lib/providers/directions.js'
+import { createHandler } from '../_lib/handler.js'
+import { numberParam, stringParam } from '../_lib/http.js'
+import { DRIVING_OPTIONS, getDrivingRoute } from '../_lib/providers/directions.js'
 
 // GET /api/directions?startLat=&startLng=&goalLat=&goalLng=[&option=traoptimal]  (자동차 이동시간/거리)
 export default createHandler((query) =>

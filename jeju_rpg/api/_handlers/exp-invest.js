@@ -1,8 +1,8 @@
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
-import { investFreeExp } from './_lib/progression/exp.js'
-import { checkTitleUnlocks } from './_lib/progression/titles.js'
-import { getAdmin } from './_lib/supabaseAdmin.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
+import { investFreeExp } from '../_lib/progression/exp.js'
+import { checkTitleUnlocks } from '../_lib/progression/titles.js'
+import { getAdmin } from '../_lib/supabaseAdmin.js'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 

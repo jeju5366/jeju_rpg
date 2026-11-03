@@ -1,6 +1,6 @@
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
-import { selectAdventure } from './_lib/agent/generateAdventures.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
+import { selectAdventure } from '../_lib/agent/generateAdventures.js'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 

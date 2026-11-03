@@ -250,5 +250,5 @@ test('연결 확인: 훅이 requestFinalQuestState 로만 서버를 부르고, �
   assert.doesNotMatch(hook, /await fetchFinalQuestState\(/) // 위치 없이 직접 부르는 경로가 없다
   const service = read('src/services/finalQuest/finalQuestService.js')
   assert.match(service, /apiPost\('final-quest', statusBody\(tripId, \{ refresh, position \}\)\)/)
-  assert.match(read('api/final-quest.js'), /evaluateFinalQuest\(\{ \.\.\.common, position: body\.position \?\? null/)
+  assert.match(read('api/_handlers/final-quest.js'), /evaluateFinalQuest\(\{ \.\.\.common, position: body\.position \?\? null/)
 })

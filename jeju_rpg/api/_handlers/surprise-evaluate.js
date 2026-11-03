@@ -1,6 +1,6 @@
-import { evaluateSurprise } from './_lib/agent/surprise.js'
-import { createHandler } from './_lib/handler.js'
-import { HttpError } from './_lib/http.js'
+import { evaluateSurprise } from '../_lib/agent/surprise.js'
+import { createHandler } from '../_lib/handler.js'
+import { HttpError } from '../_lib/http.js'
 
 export const config = { maxDuration: 60 }
 

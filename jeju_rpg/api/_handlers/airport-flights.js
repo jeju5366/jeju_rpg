@@ -1,6 +1,6 @@
-import { createHandler } from './_lib/handler.js'
-import { stringParam } from './_lib/http.js'
-import { getFlightStatus } from './_lib/providers/airport.js'
+import { createHandler } from '../_lib/handler.js'
+import { stringParam } from '../_lib/http.js'
+import { getFlightStatus } from '../_lib/providers/airport.js'
 
 // GET /api/airport-flights?flightNo=KE1406[&date=YYYYMMDD]  (제주 출발편 운항 상태, date 기본 오늘)
 export default createHandler((query) => {
